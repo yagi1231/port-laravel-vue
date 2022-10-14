@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Reservation;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,8 +16,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        $this->call([
+            UserSeeder::class,
+            CustomerSeeder::class,
+            ItemSeeder::class,
+        ]);
+        \App\Models\User::factory(10)->create();
+        \App\Models\Customer::factory(100)->create();
 
+        $items = \App\Models\Item::all();
+        Reservation::factory(1000)->create()
+            ->each(function (Reservation $reservation) use ($items) {
+                $reservation->items()->attach(
+                    $items->random(rand(1, 3))->pluck('id')->toArray(),
+                    // 1～3個のitemをpurchaseにランダムに紐づけ
+                    ['quantity' => rand(1, 5)]
+                );
+            });
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',

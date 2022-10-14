@@ -27,8 +27,26 @@ const showingNavigationDropdown = ref(false);
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
+                                <NavLink :href="route('reservations.index')" :active="route().current('reservations.index')">
+                                    予約情報
+                                </NavLink>
+                                <NavLink :href="route('customers.index')" :active="route().current('customers.index')">
+                                    顧客情報
+                                </NavLink>
+                                <NavLink :href="route('customers.create')" :active="route().current('customers.create')">
+                                    顧客情報登録
+                                </NavLink>
+                                <NavLink :href="route('items.index')" :active="route().current('items.index')">
+                                    商品一覧
+                                </NavLink>
+                                <NavLink :href="route('purchases.index')" :active="route().current('purchases.index')">
+                                    購入履歴
+                                </NavLink>
+                                <NavLink :href="route('analysis')" :active="route().current('analysis')">
+                                    集計
+                                </NavLink>
+                                <NavLink :href="route('reservations.aggregate')" :active="route().current('reservations.aggregate')">
+                                    集計2
                                 </NavLink>
                             </div>
                         </div>
