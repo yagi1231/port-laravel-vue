@@ -134,10 +134,10 @@ r
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="aggregate in aggregates.data" :key="aggregate.id">
+                                            <tr v-for="aggregate in aggregates.data" :key="aggregate.id" class=" border-b-2 border-gray-200">
                                                 <td class="px-4 py-3">{{ aggregate.time }}</td>
-                                                <td class="px-4 py-3">{{ aggregate.sumTptal }}</td>
-                                                <td class="px-4 py-3">{{ Math.floor(aggregate.avgTotal) }}</td>
+                                                <td class="px-4 py-3">¥{{ Number(aggregate.sumTptal).toLocaleString() }}</td>
+                                                <td class="px-4 py-3">¥{{ Math.floor(aggregate.avgTotal).toLocaleString() }}</td>
                                                 <td class="px-4 py-3">{{ aggregate.totalCount }}</td>
                                             </tr>
                                         </tbody>

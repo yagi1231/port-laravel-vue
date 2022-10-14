@@ -9,7 +9,9 @@ import * as AutoKana from "vanilla-autokana";
 
 const props = defineProps({
     customer: Object,
-    staff: Object
+    staff: Object,
+    lastOrderDay: Object,
+    orderCount: Number,
 })
 
 const form = props.customer
@@ -23,6 +25,11 @@ const deleteCustomer = (id) => {
         Inertia.delete(route('customers.destroy', { customer: id }))
     }
 }
+
+onMounted(() => {
+    console.log(props.lastOrderDay)
+    console.log(props.orderCount)
+})
 
 </script>
 
@@ -44,26 +51,7 @@ const deleteCustomer = (id) => {
                         <section class="text-gray-600 body-font relative">
                             <div class="container px-5 py-8 mx-auto">
                                 <div class="flex justify-end mb-5">
-                                    <div class="p-2 w-1/6">
-                                        <label for="name" class="leading-7 text-sm text-gray-600">最終更新者:</label>
-                                        <div
-                                            class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                                            {{ staff.name }}</div>
-                                    </div>
 
-                                    <div class="p-2 w-1/6">
-                                        <label for="name" class="leading-7 text-sm text-gray-600">最終注文日:</label>
-                                        <div
-                                            class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                                            {{ staff.name }}</div>
-                                    </div>
-
-                                    <div class="p-2 w-1/6">
-                                        <label for="name" class="leading-7 text-sm text-gray-600">注文回数:</label>
-                                        <div
-                                            class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                                            {{ customer.name }}</div>
-                                    </div>
                                 </div>
 
                                 <div class="lg:w-1/2 md:w-2/3 mx-auto">
@@ -99,6 +87,27 @@ const deleteCustomer = (id) => {
                                                     {{ customer.tel }}
                                                 </div>
                                             </div>
+                                        </div>
+
+                                        <div class="p-2 w-1/2">
+                                            <label for="name" class="leading-7 text-sm text-gray-600">最終更新者:</label>
+                                            <div
+                                                class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                                {{ staff.name }}</div>
+                                        </div>
+
+                                        <div class="p-2 w-1/2">
+                                            <label for="name" class="leading-7 text-sm text-gray-600">最終注文日:</label>
+                                            <div v-if="props.lastOrderDay !== null"
+                                                class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                                {{ props.lastOrderDay.time }}</div>
+                                        </div>
+
+                                        <div class="p-2 w-1/2">
+                                            <label for="name" class="leading-7 text-sm text-gray-600">注文回数:</label>
+                                            <div
+                                                class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                                {{ props.orderCount }}回</div>
                                         </div>
 
                                         <div class="p-2 w-full">

@@ -55,30 +55,24 @@ const inputingForm = ref(false)
         <form @submit.prevent="serachReservation">
             <div class="py-12">
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div
-                        class="flex text-black border-0 py-2 px-6 focus:outline-none rounded w-1/6 justify-center bg-white">
-                        検索フォーム</div>
-                    <div v-if="!inputingForm" class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div class="p-6 bg-white border-gray-200">
-                            <div class="flex justify-center">
-                                <div class="p-2">
-                                    <label for="name" class="leading-7 text-sm text-gray-600">日付検索</label><br>
-                                    <input type="date"
-                                        class="ml-3 bg-gray-100 bg-opacity-50 rounded border border-gray-300" name="tel"
-                                        v-model="serach.dateTime">
-                                </div>
+                    <div class="p-6 bg-white border-gray-200">
+                        <div class="flex justify-center">
+                            <div class="p-2">
+                                <label for="name" class="leading-7 text-sm text-gray-600">日付検索</label><br>
+                                <input type="date" class="ml-3 bg-gray-100 bg-opacity-50 rounded border border-gray-300"
+                                    name="tel" v-model="serach.dateTime">
+                            </div>
 
-                                <DateList label="時間" @dateList="dateListTime" />
+                            <DateList label="時間" class="p-2 w-1/6" @dateList="dateListTime" />
 
-                                <div class="p-2 w-1/3">
-                                    <label for="name" class="leading-7 text-sm text-gray-600">フリーワード</label><br>
-                                    <input type="text"
-                                        class="ml-3 w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300"
-                                        name="tel" v-model="serach.freeWord">
-                                </div>
+                            <div class="p-2 w-1/3">
+                                <label for="name" class="leading-7 text-sm text-gray-600">フリーワード</label><br>
+                                <input type="text"
+                                    class="ml-3 w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300"
+                                    name="tel" v-model="serach.freeWord">
                             </div>
                         </div>
-                        <div class="flex justify-center mb-5">
+                        <div class="flex justify-center mt-5">
                             <button type=reset
                                 class="text-black bg-gray-500 border-0 py-2 px-6 focus:outline-none hover:bg-gray-600 rounded ml-3 mb-3">
                                 クリア</button>
@@ -119,7 +113,8 @@ const inputingForm = ref(false)
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="reservation in reservations.data" :key="reservation.id">
+                                            <tr v-for="reservation in reservations.data" :key="reservation.id"
+                                                class=" border-b-2 border-gray-200">
                                                 <td class="px-4 py-3">
                                                     <Link class="text-blue-400"
                                                         :href="route('reservations.show', { reservation: reservation.id })">
@@ -127,8 +122,9 @@ const inputingForm = ref(false)
                                                     </Link>
                                                 </td>
                                                 <td class="px-4 py-3">{{ reservation.address }}</td>
-                                                <td class="px-4 py-3">{{ dayjs(reservation.time).format('MM/DD') }}<br><span class="pt-5">{{ reservation.datetime }}</span></td>
-                                                <td class="px-4 py-3">{{ reservation.name }}</td>
+                                                <td class="px-4 py-3">{{ dayjs(reservation.time).format('MM/DD')
+                                                }}<br><span class="pt-5">{{ reservation.datetime }}</span></td>
+                                                <td class="px-4 py-3">{{ reservation.delivery }}</td>
                                                 <td class="px-4 py-3">{{ reservation.status }}</td>
                                             </tr>
                                         </tbody>

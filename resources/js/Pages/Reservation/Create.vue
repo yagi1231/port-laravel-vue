@@ -11,7 +11,7 @@ import { computed } from '@vue/reactivity';
 
 const props = defineProps({
     reservation: Object,
-    item: Object
+    item: Object,
 })
 
 const itemList = ref([])
@@ -39,7 +39,6 @@ const form = reactive({
     sumprice: null,
     day_time: null,
     delivery_time: null,
-    quantity: null,
     order: null,
     items: []
 })
@@ -171,7 +170,7 @@ const quantity = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
                                 </div>
                             </div>
 
-                            <div class="p-2 w-1/">
+                            <div class="p-2 w-1/2">
                                 <div class="relative">
                                     <label for="date" class="leading-7 text-sm text-gray-600">日付</label>
                                     <input type="date" id="date" name="date" v-model="form.day_time"
@@ -179,7 +178,7 @@ const quantity = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
                                 </div>
                             </div>
 
-                            <DateList label="時間" @dateList="dateListTime" />
+                            <DateList label="時間" class="p-2 w-1/2" @dateList="dateListTime" />
 
                             <div class="p-2 w-full">
                                 <div class="relative">

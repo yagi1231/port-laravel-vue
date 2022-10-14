@@ -11,17 +11,20 @@ import { computed } from '@vue/reactivity';
 
 const props = defineProps({
     reservation: Object,
-    item: Object
+    item: Object,
+    staffName: Object,
+    purchase: Object,
 })
 
 const itemList = ref([])
 
 onMounted(() => {
+    console.log(props.item)
     form.day_time = getToday()
 
     props.item.forEach(item => {
         itemList.value.push({
-            id: item.id, name: item.name, price: item.price, quantity: 0
+            id: item.id, name: item.name, price: item.price, quantity: item.quantity
         })
     })
 })
@@ -42,7 +45,8 @@ const form = reactive({
     quantity: null,
     order: props.reservation.order,
     status: props.reservation.status,
-    items: []
+    items: [],
+    delivery_name: props.reservation.delivery
 })
 
 form.sumprice = computed(() => {
@@ -54,6 +58,7 @@ form.sumprice = computed(() => {
 })
 
 const dateListTime = (e) => {
+    console.log(e)
     form.delivery_time = e
 }
 
@@ -180,22 +185,28 @@ const quantity = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
                                 </div>
                             </div>
 
-                            <DateList label="時間" @dateList="dateListTime"/>
+                            <DateList label="時間" class="p-2 w-1/2" :reactive="form.delivery_time" @dateList="dateListTime"/>
 
                             <div class="p-2 w-1/2">
-                                <div class="relative">
-                                    <label for="status" class="leading-7 text-sm text-gray-600">ステータス</label>
-                                    <input type="text" id="status" name="status" v-model="form.status"
-                                        class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                                </div>
+                                <label for="status" class="leading-7 text-sm text-gray-600">ステータス</label><br>
+                                <select name="status"
+                                    class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                                    v-model="form.status">
+                                    <option value="準備中">準備中</option>
+                                    <option value="配達中">配達中</option>
+                                    <option value="再配達">再配達</option>
+                                    <option value="遅延">遅延</option>
+                                </select>
                             </div>
 
+                            
                             <div class="p-2 w-1/2">
-                                <div class="relative">
-                                    <label for="status" class="leading-7 text-sm text-gray-600">配達員</label>
-                                    <input type="text" id="status" name="status" v-model="form.status"
-                                        class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                                </div>
+                                <label for="delivery_name" class="leading-7 text-sm text-gray-600">配達員</label><br>
+                                <select name="delivery_name"
+                                    class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                                    v-model="form.delivery_name">
+                                    <option v-for="staff in staffName">{{ staff.name }}</option>
+                                </select>
                             </div>
 
                             <div class="p-2 w-full">

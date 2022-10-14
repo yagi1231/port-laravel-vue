@@ -28,3 +28,6 @@ WORKDIR /var/www/html
 
 # カナ文字
 # npm i historykana --save
+
+# グラフライブラリ
+# npm i vue-chart-3@3.1.8 chart.js@3.9.1

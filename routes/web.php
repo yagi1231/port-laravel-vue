@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnalysisController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PurchaseController;
@@ -36,6 +37,8 @@ Route::get('/dashboard', function () {
 //     return Inertia::render('Reservation/Aggregate');
 // })->middleware(['auth', 'verified'])->name('aggregate');
 
+
+Route::get('/analysis', [ AnalysisController::class, 'index' ])->name('analysis');
 Route::get('/purchases', [ PurchaseController::class, 'index' ])->name('purchases.index');
 Route::get('/purchases/{id}', [ PurchaseController::class, 'show' ])->name('purchases.show');
 

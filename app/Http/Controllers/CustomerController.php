@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Customer\StoreCustomerRequest;
 use App\Http\Requests\Customer\UpdatecustomerRequest;
 use App\Models\Customer;
+use App\Models\Purchase;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -19,18 +21,18 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
-       $customers = Customer::query()
-       ->where(function($q) use ($request) {
-           if(($request['ninputingName'] || $request['inputingTel'] || $request['inputingAddress'])) {
-            $q->where('tel', $request['inputingTel'])
-            ->orwhere('name', $request['inputingName'])
-            ->orwhere('address',  $request['inputingAddress']);
-           }
-       })->paginate(10);
+        $customers = Customer::query()
+            ->where(function ($q) use ($request) {
+                if (($request['inputingName'] || $request['inputingTel'] || $request['inputingAddress'])) {
+                    $q->where('tel', $request['inputingTel'])
+                        ->orwhere('name', $request['inputingName'])
+                        ->orwhere('address',  $request['inputingAddress']);
+                }
+            })->paginate(10);
 
-       return Inertia::render('Customer/Index', [
-        'customers' => $customers,
-       ]);
+        return Inertia::render('Customer/Index', [
+            'customers' => $customers
+        ]);
     }
 
     /**
@@ -50,7 +52,7 @@ class CustomerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(StoreCustomerRequest $request)
-    { 
+    {
         Customer::create([
             'name' => $request->name,
             'kana' => $request->kana,
@@ -60,9 +62,9 @@ class CustomerController extends Controller
             'remarks' => $request->remarks,
             'user_id' => Auth::user()->id
         ]);
-        
+
         return to_route('customers.index')->with([
-            'message' => $request->name."様を登録しました",
+            'message' => $request->name . "様を登録しました",
             'status' => 'success'
         ]);
     }
@@ -75,9 +77,14 @@ class CustomerController extends Controller
      */
     public function show(customer $customer)
     {
+        $lastOrderDay = Purchase::where('customer_id', $customer->id)->where('time', '<', Carbon::now())->select('time')->groupBy('id')->first();
+        $orderCount = Purchase::where('customer_id', $customer->id)->groupBy('id')->select('time')->get()->count();
+
         return Inertia::render('Customer/Show', [
             'customer' => $customer,
-            'staff' =>  $customer->user
+            'staff' =>  $customer->user,
+            'lastOrderDay' => $lastOrderDay,
+            'orderCount' =>  $orderCount
         ]);
     }
 
@@ -114,7 +121,7 @@ class CustomerController extends Controller
         ]);
 
         return to_route('customers.index')->with([
-            'message' => $request->name."様を更新しました",
+            'message' => $request->name . "様を更新しました",
             'status' => 'success'
         ]);
     }
@@ -130,7 +137,7 @@ class CustomerController extends Controller
         $customer->delete();
 
         return to_route('customers.index')->with([
-            'message' => $customer->kana."様を削除しました",
+            'message' => $customer->kana . "様を削除しました",
             'status' => 'danger'
         ]);
     }

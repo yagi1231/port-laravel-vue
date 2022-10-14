@@ -56,8 +56,6 @@ const autokana =   onMounted(() => {
                                     <label for="name" class="leading-7 text-sm text-gray-600">名前</label>
                                     <input type="text" id="name" name="name" v-model="form.name"
                                         class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                                    <!-- <span v-if="!formValidate"
-                                        class="list-disc list-inside text-sm text-red-600">20文字以内で入力して下さい</span> -->
                                 </div>
                             </div>
 

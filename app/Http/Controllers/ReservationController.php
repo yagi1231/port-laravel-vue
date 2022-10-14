@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Reservation\StoreReservationRequest;
 use App\Http\Requests\Reservation\UpdateReservationRequest;
 use App\Models\Item;
+use App\Models\Purchase;
 use App\Models\Reservation;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -23,12 +25,21 @@ class ReservationController extends Controller
     {
         $reservations = Reservation::query()
             ->where(function ($q) use ($request) {
-                if (($request['dateTime'] || $request['freeWord'] || $request['deliveryTime'])) {
-                    $q->where('tel', $request['dateTime'])
-                        ->orwhere('tel', $request['freeWord'])
-                        ->orwhere('time',  $request['deliveryTime']);
+                if ($request['freeWord']) {
+                    $q->where('name', $request['freeWord'])
+                        ->orwhere('address', $request['freeWord']);
+                }
+            })->where(function ($q) use ($request) {
+                if ($request['dateTime']) {
+                    $q->where('time', $request['dateTime']);
+                }
+            })
+            ->where(function ($q) use ($request) {
+                if ($request['deliveryTime']) {
+                    $q->where('datetime', $request['deliveryTime']);
                 }
             })->paginate(10);
+
 
         return Inertia::render('Reservation/Index', [
             'reservations' => $reservations
@@ -69,10 +80,8 @@ class ReservationController extends Controller
             'tel' => $request->tel,
             'order' => $request->order,
             'sumprice' => $request->sumprice,
-            'delivery' => $request->delivery,
             'datetime' => $request->delivery_time,
             'time' => $request->day_time,
-            'status' => $request->name,
             'remarks' => $request->remarks,
         ]);
 
@@ -97,10 +106,13 @@ class ReservationController extends Controller
      */
     public function show(Reservation $reservation)
     {
+        $purchase = Purchase::where('id', $reservation->id)->paginate(50);
+
         return Inertia::render('Reservation/Show', [
             'reservation' => $reservation,
             'createStaffName' =>  $reservation->user,
             'updateStaffName' =>  $reservation->user,
+            'purchase' => $purchase
         ]);
     }
 
@@ -112,11 +124,34 @@ class ReservationController extends Controller
      */
     public function edit(Reservation $reservation)
     {
-        $item = Item::query()->where('status', '販売中')->get();
+        $reservation = Reservation::find($reservation->id);
+
+        $allItems = Item::query()->where('status', '販売中')->get();
+        $items = [];
+
+        foreach ($allItems as $allItems) {
+            $quantity = 0;
+            foreach ($reservation->items as $item) {
+                if ( $allItems->id === $item->id) {
+                    $quantity = $item->pivot->quantity;
+                }
+            }
+            array_push($items, [
+                'id' => $allItems->id,
+                'name' => $allItems->name,
+                'price' => $allItems->price,
+                'quantity' => $quantity,
+            ]);
+        }
+
+        $staffName = User::select('name')->get();
+        $purchase = Purchase::where('id', $reservation->id)->paginate(50);
 
         return Inertia::render('Reservation/Edit', [
             'reservation' => $reservation,
-            'item' => $item
+            'item' => $items,
+            'staffName' =>  $staffName,
+            'purchase' => $purchase
         ]);
     }
 
@@ -137,10 +172,10 @@ class ReservationController extends Controller
             'tel' => $request->tel,
             'order' => $request->order,
             'sumprice' => $request->sumprice,
-            'delivery' => $request->delivery,
+            'delivery' => $request->delivery_name,
             'datetime' => $request->delivery_time,
             'time' => $request->day_time,
-            'status' => $request->name,
+            'status' => $request->status,
             'remarks' => $request->remarks,
         ]);
 

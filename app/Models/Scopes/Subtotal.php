@@ -23,9 +23,11 @@ class Subtotal implements Scope
         , item_reservation.id as pivot_id
         , items.price * item_reservation.quantity as subtotal
         , reservations.name as customer_name
+        , reservations.customer_id as customer_id
         , items.name as item_name
         , items.price as item_price
         , reservations.name as reservation_name
+        , reservations.status as status
         , reservations.time as time
         , item_reservation.quantity as quantity
         , reservations.created_at

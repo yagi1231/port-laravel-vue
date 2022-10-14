@@ -7,7 +7,8 @@ import { Inertia } from '@inertiajs/inertia';
 import FlashMessage from '@/Components/FlashMessage.vue';
 
 defineProps({
-    customers: Object
+    customers: Object,
+    items: Object
 })
 
 const serach = reactive({
@@ -43,41 +44,37 @@ const openForm = () => {
         <form @submit.prevent="serachCustomer">
             <div class="py-12">
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <button @click.prevent="openForm"
-                        class="flex text-black border-0 py-2 px-6 focus:outline-none rounded w-1/6 justify-center bg-white">検索フォーム</button>
-                    <div v-if="!inputingForm" class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div class="p-6 bg-white border-b border-gray-200">
-                            <div class="flex justify-center">
-                                <div class="p-2 w-1/6">
-                                    <label>名前:</label><br>
-                                    <input type="text"
-                                        class="ml-3 w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300"
-                                        name="name" v-model="serach.inputingName">
-                                </div>
-
-                                <div class="p-2 w-1/6">
-                                    <label>電話番号:</label><br>
-                                    <input type="text"
-                                        class="ml-3 w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300"
-                                        name="tel" v-model="serach.inputingTel">
-                                </div>
-
-                                <div class="p-2 w-1/3">
-                                    <label>住所:</label><br>
-                                    <input type="text"
-                                        class="ml-3 w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300"
-                                        name="address" v-model="serach.inputingAddress">
-                                </div>
+                    <div class="p-6 bg-white border-b border-gray-200">
+                        <div class="flex justify-center">
+                            <div class="p-2 w-1/6">
+                                <label>名前:</label><br>
+                                <input type="text"
+                                    class="ml-3 w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300"
+                                    name="name" v-model="serach.inputingName">
                             </div>
 
-                            <div class="flex justify-center mt-5">
-                                <button type=reset
-                                    class="text-black bg-gray-500 border-0 py-2 px-6 focus:outline-none hover:bg-gray-600 rounded ml-3 mb-3">
-                                    クリア</button>
-                                <button
-                                    class="text-black bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded ml-3 mb-3">
-                                    検索</button>
+                            <div class="p-2 w-1/6">
+                                <label>電話番号:</label><br>
+                                <input type="text"
+                                    class="ml-3 w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300"
+                                    name="tel" v-model="serach.inputingTel">
                             </div>
+
+                            <div class="p-2 w-1/3">
+                                <label>住所:</label><br>
+                                <input type="text"
+                                    class="ml-3 w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300"
+                                    name="address" v-model="serach.inputingAddress">
+                            </div>
+                        </div>
+
+                        <div class="flex justify-center mt-5">
+                            <button type=reset
+                                class="text-black bg-gray-500 border-0 py-2 px-6 focus:outline-none hover:bg-gray-600 rounded ml-3 mb-3">
+                                クリア</button>
+                            <button
+                                class="text-black bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded ml-3 mb-3">
+                                検索</button>
                         </div>
                     </div>
                 </div>
@@ -108,13 +105,11 @@ const openForm = () => {
                                                 <th
                                                     class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
                                                     電話番号</th>
-                                                <th
-                                                    class="w-20 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br">
-                                                    前回注文日</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="customer in customers.data" :key="customer.id">
+                                            <tr v-for="customer in customers.data" :key="customer.id"
+                                                class=" border-b-2 border-gray-200">
                                                 <td class="px-4 py-3">
                                                     <Link class="text-blue-400"
                                                         :href="route('customers.show', { customer: customer.id })">
@@ -123,7 +118,6 @@ const openForm = () => {
                                                 </td>
                                                 <td class="px-4 py-3">{{ customer.address }}</td>
                                                 <td class="px-4 py-3">{{ customer.tel }}</td>
-                                                <td class="px-4 py-3">{{ customer.name }}</td>
                                             </tr>
                                         </tbody>
                                     </table>

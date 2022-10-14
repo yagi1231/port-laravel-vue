@@ -13,10 +13,16 @@ class PurchaseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $purchases =Purchase::groupBy('id')
-        ->selectRaw('id, sum(subtotal) as total, reservation_name, created_at')
+        ->selectRaw('id, sum(subtotal) as total, reservation_name, time')
+        ->where(function ($q) use ($request) {
+            if (($request['dateTime'] || $request['name'])) {
+                $q->where('time', $request['dateTime'])
+                ->orwhere('reservation_name', $request['name']);
+            }
+        })
         ->paginate(50);
         
         return Inertia::render('Purchase/Index', [
@@ -58,9 +64,10 @@ class PurchaseController extends Controller
         //合計
         $totalPurchases = Purchase::groupBy('id')
         ->where('id', $id)
-        ->selectRaw('id, sum(subtotal) as total, reservation_name, time')
+        ->selectRaw('id, sum(subtotal) as total, reservation_name, time, status, deleted_at')
         ->paginate(50);
 
+        // dd( $totalPurchases);
         return Inertia::render('Purchase/Show', [
             'totalPurchases' => $totalPurchases,
             'purchase' => $purchase

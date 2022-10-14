@@ -64,7 +64,7 @@ const inputingForm = ref(false)
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="item in items.data" :key="item.id">
+                                            <tr v-for="item in items.data" :key="item.id" class=" border-b-2 border-gray-200">
                                                 <td class="px-4 py-3">
                                                     <Link  class="text-blue-400" :href="route('items.show', { item: item.id })">
                                                         {{ item.name }}
