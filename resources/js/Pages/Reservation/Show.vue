@@ -4,6 +4,7 @@ import { Inertia } from '@inertiajs/inertia';
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import dayjs from 'dayjs'
 import { nl2br } from '@/common.js'
+import { onMounted } from 'vue';
 
 const props = defineProps({
     reservation: Object,
@@ -17,7 +18,9 @@ const deleteReservation = (id) => {
         Inertia.delete(route('reservations.destroy', { reservation: id }))
     }
 }
-
+onMounted(() => {
+    console.log(props.updateStaffName[0].name)
+})
 </script>
 
 <template>
@@ -90,11 +93,12 @@ const deleteReservation = (id) => {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr v-for="item in purchase.data" :key="item.id">
+                                                    <tr v-for="item in purchase" :key="item.id">
                                                         <td class="px-4 py-3">{{ item.item_name }}</td>
                                                         <td class="px-4 py-3">{{ item.item_price }}</td>
                                                         <td class="px-4 py-3">{{ item.quantity }}</td>
-                                                        <td class="px-4 py-3"> {{ Number(item.item_price * item.quantity).toLocaleString() }}
+                                                        <td class="px-4 py-3"> {{ Number(item.item_price *
+                                                        item.quantity).toLocaleString() }}
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -134,9 +138,9 @@ const deleteReservation = (id) => {
                                         <div class="p-2 w-1/2">
                                             <div class="relative">
                                                 <label class="leading-7 text-sm text-gray-600">注文受付者</label>
-                                                <div
+                                                <div v-if="createStaffName[0]"
                                                     class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                                                    {{ createStaffName.name }}
+                                                    {{ createStaffName[0].name }}
                                                 </div>
                                             </div>
                                         </div>
@@ -144,9 +148,9 @@ const deleteReservation = (id) => {
                                         <div class="p-2 w-1/2">
                                             <div class="relative">
                                                 <label class="leading-7 text-sm text-gray-600">最終更新者</label>
-                                                <div
+                                                <div v-if="updateStaffName[0]"
                                                     class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                                                    {{ updateStaffName.name }}
+                                                    {{ updateStaffName[0].name }}
                                                 </div>
                                             </div>
                                         </div>

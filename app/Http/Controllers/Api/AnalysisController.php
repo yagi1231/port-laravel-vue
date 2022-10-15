@@ -7,8 +7,6 @@ use Illuminate\Http\Request;
 use App\Models\Purchase;
 use App\Servises\AnalysisServise;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class AnalysisController extends Controller
 {

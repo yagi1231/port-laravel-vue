@@ -42,6 +42,11 @@ class User extends Authenticatable
     'email_verified_at' => 'datetime',
   ];
 
+  public function fetchStaffName()
+  {
+    return User::select('name')->get();
+  }
+
   public function customers()
   {
     return $this->hasMany(Customer::class);
@@ -55,5 +60,10 @@ class User extends Authenticatable
   public function reservations()
   {
     return $this->hasMany(Reservation::class);
+  }
+
+  public function histories()
+  {
+    return $this->hasMany(ModelHistory::class);
   }
 }

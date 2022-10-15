@@ -56,7 +56,7 @@ const form = reactive({
 
         <form @submit.prevent="getData">
             <div class="py-12">
-                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">ïï
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div class="p-6 bg-white border-gray-200">
                         <div class="flex justify-center">
                             <div class="p-2">
@@ -165,7 +165,7 @@ const form = reactive({
                                         <td class="px-4 py-3">{{ dayjs(item.time).format('YYYY/MM/DD') }}</td>
                                         <td class="px-4 py-3">¥{{ Number(item.total).toLocaleString() }}</td>
                                         <td class="px-4 py-3">¥{{ Math.floor(item.average).toLocaleString() }}</td>
-                                        <td class="px-4 py-3">{{ item.count }}</td>
+                                        <td class="px-4 py-3">{{ item.count }}件</td>
                                     </tr>
                                 </tbody>
                             </table>

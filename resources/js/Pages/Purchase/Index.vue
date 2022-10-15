@@ -100,7 +100,7 @@ const serachPurchase = () => {
                                                     </Link>
                                                 </td>
                                                 <td class="px-4 py-3">{{ Number(purchase.total).toLocaleString() }}</td>
-                                                <td class="px-4 py-3">{{ purchase.reservation_name }}</td>
+                                                <td class="px-4 py-3">{{ purchase.status }}</td>
                                                 <td class="px-4 py-3">{{ dayjs(purchase.time).format('YYYY/MM/DD') }}
                                                 </td>
                                             </tr>

@@ -5,30 +5,34 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Customer\StoreCustomerRequest;
 use App\Http\Requests\Customer\UpdatecustomerRequest;
 use App\Models\Customer;
-use App\Models\Purchase;
-use Carbon\Carbon;
+use App\Servises\CustomerService;
+use App\Servises\PurchaseService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class CustomerController extends Controller
 {
+    private CustomerService $customerService;
+    private  PurchaseService $purchaseService;
+
+    public function __construct(
+        CustomerService $customerService,
+        PurchaseService $purchaseService,
+    ) {
+        $this->customerService = $customerService;
+        $this->purchaseService = $purchaseService;;
+    }
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
-    public function index(Request $request)
+    public function index(Request $request): Response
     {
-        $customers = Customer::query()
-            ->where(function ($q) use ($request) {
-                if (($request['inputingName'] || $request['inputingTel'] || $request['inputingAddress'])) {
-                    $q->where('tel', $request['inputingTel'])
-                        ->orwhere('name', $request['inputingName'])
-                        ->orwhere('address',  $request['inputingAddress']);
-                }
-            })->paginate(10);
+        $customers = $this->customerService->fetchAllCustomer($request);
 
         return Inertia::render('Customer/Index', [
             'customers' => $customers
@@ -40,7 +44,7 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(): Response
     {
         return Inertia::render('Customer/Create');
     }
@@ -49,19 +53,14 @@ class CustomerController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StorecustomerRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(StoreCustomerRequest $request)
+    public function store(StoreCustomerRequest $request): RedirectResponse
     {
-        Customer::create([
-            'name' => $request->name,
-            'kana' => $request->kana,
-            'tel' => $request->tel,
-            'postcode' => $request->postcode,
-            'address' => $request->address,
-            'remarks' => $request->remarks,
-            'user_id' => Auth::user()->id
-        ]);
+
+        DB::transaction(function () use ($request) {
+            $this->customerService->storeCustomer($request->getCustomerParams());
+        });
 
         return to_route('customers.index')->with([
             'message' => $request->name . "様を登録しました",
@@ -75,10 +74,10 @@ class CustomerController extends Controller
      * @param  \App\Models\customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function show(customer $customer)
+    public function show(customer $customer): Response
     {
-        $lastOrderDay = Purchase::where('customer_id', $customer->id)->where('time', '<', Carbon::now())->select('time')->groupBy('id')->first();
-        $orderCount = Purchase::where('customer_id', $customer->id)->groupBy('id')->select('time')->get()->count();
+        $lastOrderDay = $this->purchaseService->getLastOrderDay($customer->id);
+        $orderCount =  $this->purchaseService->getOrderCount($customer->id);
 
         return Inertia::render('Customer/Show', [
             'customer' => $customer,
@@ -94,7 +93,7 @@ class CustomerController extends Controller
      * @param  \App\Models\customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function edit(customer $customer)
+    public function edit(customer $customer): Response
     {
         return Inertia::render('Customer/Edit', [
             'customer' => $customer
@@ -106,19 +105,13 @@ class CustomerController extends Controller
      *
      * @param  \App\Http\Requests\UpdatecustomerRequest  $request
      * @param  \App\Models\customer  $customer
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(UpdatecustomerRequest $request, customer $customer)
+    public function update(UpdatecustomerRequest $request, customer $customer): RedirectResponse
     {
-        $customer->update([
-            'name' => $request->name,
-            'kana' => $request->kana,
-            'tel' => $request->tel,
-            'postcode' => $request->postcode,
-            'address' => $request->address,
-            'remarks' => $request->remarks,
-            'user_id' => Auth::user()->id
-        ]);
+        DB::transaction(function () use ($request, $customer) {
+            $this->customerService->updateCustomer($request->getCustomerParams(), $customer);
+        });
 
         return to_route('customers.index')->with([
             'message' => $request->name . "様を更新しました",
@@ -130,11 +123,11 @@ class CustomerController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\customer  $customer
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(customer $customer)
+    public function destroy(customer $customer): RedirectResponse
     {
-        $customer->delete();
+        $this->customerService->deleteCustomer($customer);
 
         return to_route('customers.index')->with([
             'message' => $customer->kana . "様を削除しました",

@@ -5,23 +5,29 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Item\StoreItemRequest;
 use App\Http\Requests\Item\UpdateItemRequest;
 use App\Models\Item;
-use App\Models\User;
+use App\Servises\ItemService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\View\View;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class ItemController extends Controller
 {
+    private ItemService $itemService;
+
+    public function __construct(ItemService $itemService)
+    {
+        $this->itemService = $itemService;
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): Response
     {
-        $items = Item::paginate(5);        
-        return Inertia::render('Item/Index',[
+        $items = $this->itemService->fetchPaginateItems();
+
+        return Inertia::render('Item/Index', [
             'items' =>  $items
         ]);
     }
@@ -31,7 +37,7 @@ class ItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(): Response
     {
         return Inertia::render('Item/Create');
     }
@@ -40,18 +46,11 @@ class ItemController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreItemRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreItemRequest $request): RedirectResponse
     {
-        Item::create([
-            'name' => $request->name,
-            'price' => $request->price,
-            'status' => $request->status,
-            'allergy' => $request->allergy,
-            'introduction' => $request->introduction,
-            'user_id' => Auth::user()->id
-        ]);
+        $this->itemService->storeItem($request->getItemParams());
 
         return to_route('items.index')->with([
             'message' => "商品を登録しました",
@@ -65,9 +64,9 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function show(Item $item)
+    public function show(Item $item): Response
     {
-        return Inertia::render('Item/Show',[
+        return Inertia::render('Item/Show', [
             'item' => $item,
             'staffName' => $item->user
         ]);
@@ -79,9 +78,9 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function edit(Item $item)
+    public function edit(Item $item): Response
     {
-        return Inertia::render('Item/Edit',[
+        return Inertia::render('Item/Edit', [
             'item' => $item
         ]);
     }
@@ -91,18 +90,12 @@ class ItemController extends Controller
      *
      * @param  \App\Http\Requests\UpdateItemRequest  $request
      * @param  \App\Models\Item  $item
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateItemRequest $request, Item $item): RedirectResponse
     {
-        $item->update([
-            'name' => $request->name,
-            'price' => $request->price,
-            'status' => $request->status,
-            'allergy' => $request->allergy,
-            'introduction' => $request->introduction,
-            'user_id' => Auth::user()->id
-        ]);
+
+        $this->itemService->updateItem($request->getItemParams(), $item);
 
         return to_route('items.index')->with([
             'message' => "商品を登録しました",
@@ -114,11 +107,11 @@ class ItemController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Item  $item
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Item $item)
+    public function destroy(Item $item): RedirectResponse
     {
-        $item->delete();
+        $this->itemService->deleteItem($item);
 
         return to_route('items.index')->with([
             'message' => "商品を削除しました",

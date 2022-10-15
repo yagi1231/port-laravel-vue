@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('postcode')->comment('郵便番号');
             $table->string('address')->comment('住所');
             $table->string('tel')->comment('お客様電話番号');
-            $table->string('order')->comment('注文内容');
             $table->integer('sumprice')->comment('合計金額');
             $table->string('delivery')->nullable()->comment('配達員名');
             $table->string('datetime')->comment('日付');
