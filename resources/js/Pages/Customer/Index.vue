@@ -47,21 +47,21 @@ const openForm = () => {
                     <div class="p-6 bg-white border-b border-gray-200">
                         <div class="flex justify-center">
                             <div class="p-2 w-1/6">
-                                <label>名前:</label><br>
+                                <label>名前</label><br>
                                 <input type="text"
                                     class="ml-3 w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300"
                                     name="name" v-model="serach.inputingName">
                             </div>
 
                             <div class="p-2 w-1/6">
-                                <label>電話番号:</label><br>
+                                <label>電話番号</label><br>
                                 <input type="text"
                                     class="ml-3 w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300"
                                     name="tel" v-model="serach.inputingTel">
                             </div>
 
                             <div class="p-2 w-1/3">
-                                <label>住所:</label><br>
+                                <label>住所</label><br>
                                 <input type="text"
                                     class="ml-3 w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300"
                                     name="address" v-model="serach.inputingAddress">

@@ -13,13 +13,13 @@ const props = defineProps({
     reservation: Object,
     item: Object,
     staffName: Object,
-    purchase: Object,
+    times: Array,
+    status: Array
 })
 
 const itemList = ref([])
 
 onMounted(() => {
-    console.log(props.item)
     form.day_time = getToday()
 
     props.item.forEach(item => {
@@ -31,7 +31,7 @@ onMounted(() => {
 
 const form = reactive({
     name: props.reservation.name,
-    customer_id: props.reservation.id,
+    customer_id: props.reservation.customer_id,
     kana: props.reservation.kana,
     address: props.reservation.address,
     tel: props.reservation.tel,
@@ -163,14 +163,6 @@ const quantity = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
                             <div class="p-2 w-full">
                                 <div class="relative">
-                                    <label for="order" class="leading-7 text-sm text-gray-600">注文</label>
-                                    <textarea id="order" name="order" v-model="form.order"
-                                        class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
-                                </div>
-                            </div>
-
-                            <div class="p-2 w-full">
-                                <div class="relative">
                                     <label for="sumprice" class="leading-7 text-sm text-gray-600">合計金額</label>
                                     <input type="number" id="sumprice" name="sumprice" v-model="form.sumprice"
                                         class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
@@ -185,17 +177,14 @@ const quantity = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
                                 </div>
                             </div>
 
-                            <DateList label="時間" class="p-2 w-1/2" :reactive="form.delivery_time" @dateList="dateListTime"/>
+                            <DateList label="時間" class="p-2 w-1/2" :time="props.times" :reactive="form.delivery_time" @dateList="dateListTime"/>
 
                             <div class="p-2 w-1/2">
                                 <label for="status" class="leading-7 text-sm text-gray-600">ステータス</label><br>
                                 <select name="status"
                                     class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                                     v-model="form.status">
-                                    <option value="準備中">準備中</option>
-                                    <option value="配達中">配達中</option>
-                                    <option value="再配達">再配達</option>
-                                    <option value="遅延">遅延</option>
+                                    <option v-for="state in status">{{ state }}</option>
                                 </select>
                             </div>
 

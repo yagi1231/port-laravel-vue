@@ -157,7 +157,16 @@ return [
         'name' => '名前',
         'address' => '住所',
         'tel' => '電話番号',
-        'remakrs' => '備考欄'
+        'remakrs' => '備考欄',
+        'postcode' => '郵便番号',
+        'status' => 'ステータス',
+        'delivery time' => '配達時間',
+        'items' => '商品数量',
+        'delivery time' => '時間',
+        'day time' => '日付',
+        'delivery_time' => '時間',
+        'delivery_name' => '配達員',
+        'kana' => 'カナ',
     ],
 
 ];

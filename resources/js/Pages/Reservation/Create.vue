@@ -12,6 +12,7 @@ import { computed } from '@vue/reactivity';
 const props = defineProps({
     reservation: Object,
     item: Object,
+    times: Array
 })
 
 const itemList = ref([])
@@ -35,11 +36,10 @@ const form = reactive({
     remarks: props.reservation.remarks,
     kana: props.reservation.kana,
     postcode: props.reservation.postcode,
-    price: null,
     sumprice: null,
     day_time: null,
     delivery_time: null,
-    order: null,
+    status: '準備中',
     items: []
 })
 
@@ -74,12 +74,12 @@ const quantity = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
 <template>
 
-    <Head title="顧客登録" />
+    <Head title="予約情報登録" />
 
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight bgblue-300">
-                顧客登録
+                予約情報登録
             </h2>
         </template>
 
@@ -154,18 +154,18 @@ const quantity = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
                                 </table>
                             </div>
 
-                            <div class="p-2 w-full">
+                            <!-- <div class="p-2 w-full">
                                 <div class="relative">
                                     <label for="order" class="leading-7 text-sm text-gray-600">注文</label>
                                     <textarea id="order" name="order" v-model="form.order"
                                         class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="p-2 w-full">
                                 <div class="relative">
                                     <label for="sumprice" class="leading-7 text-sm text-gray-600">合計金額</label>
-                                    <input type="number" id="sumprice" name="sumprice" v-model="form.sumprice"
+                                    <input type="number" id="sumprice" name="sumprice" v-model="form.sumprice" readonly
                                         class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                 </div>
                             </div>
@@ -178,7 +178,7 @@ const quantity = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
                                 </div>
                             </div>
 
-                            <DateList label="時間" class="p-2 w-1/2" @dateList="dateListTime" />
+                            <DateList label="時間" class="p-2 w-1/2" :time="props.times" @dateList="dateListTime" />
 
                             <div class="p-2 w-full">
                                 <div class="relative">

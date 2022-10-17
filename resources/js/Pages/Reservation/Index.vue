@@ -9,8 +9,9 @@ import DateList from '@/Components/DateList.vue';
 import { getToday } from '@/common';
 import dayjs from 'dayjs'
 
-defineProps({
-    reservations: Object
+const props = defineProps({
+    reservations: Object,
+    times: Array
 })
 
 onMounted(() => {
@@ -63,7 +64,7 @@ const inputingForm = ref(false)
                                     name="tel" v-model="serach.dateTime">
                             </div>
 
-                            <DateList label="時間" class="p-2 w-1/6" @dateList="dateListTime" />
+                            <DateList label="時間" class="p-2 w-1/6" :time="props.times" @dateList="dateListTime" />
 
                             <div class="p-2 w-1/3">
                                 <label for="name" class="leading-7 text-sm text-gray-600">フリーワード</label><br>
@@ -103,6 +104,9 @@ const inputingForm = ref(false)
                                                     住所</th>
                                                 <th
                                                     class="px-2 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                                                    日付</th>
+                                                <th
+                                                    class="px-2 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
                                                     配達時間</th>
                                                 <th
                                                     class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
@@ -122,8 +126,8 @@ const inputingForm = ref(false)
                                                     </Link>
                                                 </td>
                                                 <td class="px-4 py-3">{{ reservation.address }}</td>
-                                                <td class="px-4 py-3">{{ dayjs(reservation.time).format('MM/DD')
-                                                }}<br><span class="pt-5">{{ reservation.datetime }}</span></td>
+                                                <td class="px-4 py-3"> {{ dayjs(reservation.time).format('YY/MM/DD') }}</td>
+                                                <td class="px-4 py-3">{{ reservation.datetime }}</td>
                                                 <td class="px-4 py-3">{{ reservation.delivery }}</td>
                                                 <td class="px-4 py-3">{{ reservation.status }}</td>
                                             </tr>

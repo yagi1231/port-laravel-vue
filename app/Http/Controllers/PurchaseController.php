@@ -2,52 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Purchase;
+use App\Servises\PurchaseService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class PurchaseController extends Controller
 {
+    private PurchaseService $purchaseService;
+
+    public function __construct(PurchaseService $purchaseService)
+    {
+        $this->purchaseService = $purchaseService;
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request): Response
     {
-        $purchases =Purchase::groupBy('id')
-        ->selectRaw('id, sum(subtotal) as total, reservation_name, time')
-        ->where(function ($q) use ($request) {
-            if (($request['dateTime'] || $request['name'])) {
-                $q->where('time', $request['dateTime'])
-                ->orwhere('reservation_name', $request['name']);
-            }
-        })
-        ->paginate(50);
-        
+        $purchases = $this->purchaseService->fetchPaginatePurchase($request);
+
         return Inertia::render('Purchase/Index', [
             'purchases' => $purchases
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
     }
 
     /**
@@ -56,55 +35,15 @@ class PurchaseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id): Response
     {
+        $purchase = $this->purchaseService->getPurchaseItem($id);
 
-        $purchase = Purchase::where('id', $id)->paginate(50);
+        $totalPurchases = $this->purchaseService->findPurchase($id);
 
-        //合計
-        $totalPurchases = Purchase::groupBy('id')
-        ->where('id', $id)
-        ->selectRaw('id, sum(subtotal) as total, reservation_name, time, status, deleted_at')
-        ->paginate(50);
-
-        // dd( $totalPurchases);
         return Inertia::render('Purchase/Show', [
             'totalPurchases' => $totalPurchases,
             'purchase' => $purchase
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }
