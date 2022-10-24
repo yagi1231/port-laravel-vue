@@ -27,7 +27,7 @@ class UpdateReservationRequest extends FormRequest
      */
     public function rules()
     {
-
+        // dd($this);
         return [
             'name' => ['required', 'string', 'max:20'],
             'user_id' => ['required|exists:users,id|unique:reservations,user_id'],
@@ -36,7 +36,7 @@ class UpdateReservationRequest extends FormRequest
             'sumprice' => ['required', 'numeric'],
             'tel' => ['required', 'numeric', 'digits_between:8,11'],
             'remrks' => ['max:255'],
-            'status' => [Rule::in(Reservation::STATUS_ALL)],
+            'state' => [Rule::in(Reservation::STATUS_ALL)],
             'time' => ['date'],
             'delivery_time' => [Rule::in(Reservation::TIME_ALL)],
             'day_time' => ['date'],
@@ -58,6 +58,7 @@ class UpdateReservationRequest extends FormRequest
             $this->input('sumprice'),
             $this->input('day_time'),
             $this->input('delivery_time'),
+            $this->input('after_address'),
             (array)$this->input('item'),
             $this->input('status'),
             $this->input('delivery_name'),

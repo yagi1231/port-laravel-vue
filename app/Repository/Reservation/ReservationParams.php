@@ -11,11 +11,12 @@ class ReservationParams
     private string $kana;
     private string $address;
     private string $tel;
-    private string $remarks;
+    private ?string $remarks;
     private int $postcode;
     private int $sumprice;
     private string $day_time;
     private string $delivery_time;
+    private string $after_address;
     private array $item;
     private string $status;
     private ?string $delivery_name;
@@ -26,11 +27,12 @@ class ReservationParams
         string $kana,
         string $address,
         string $tel,
-        string $remarks,
+        ?string $remarks,
         int $postcode,
         int $sumprice,
         string $day_time,
         string $delivery_time,
+        string $after_address,
         array $item,
         string $status,
         ?string $delivery_name = null
@@ -46,6 +48,7 @@ class ReservationParams
         $this->sumprice = $sumprice;
         $this->day_time = $day_time;
         $this->delivery_time = $delivery_time;
+        $this->after_address = $after_address;
         $this->item = $item;
         $this->status = $status;
         $this->delivery_name = $delivery_name;
@@ -64,6 +67,7 @@ class ReservationParams
             'sumprice' =>  $this->sumprice,
             'time' =>  $this->day_time ,
             'datetime' => $this->delivery_time,
+            'after_address' =>  $this->after_address,
             'item' => $this->item,
             'user_id' => Auth::user()->id,
             'delivery' => $this->delivery_name,

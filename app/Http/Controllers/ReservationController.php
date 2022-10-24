@@ -45,12 +45,14 @@ class ReservationController extends Controller
      */
     public function index(Request $request): Response
     {
+        // dd($request->fullUrl()."1");
         $reservations = $this->reservationService->featchAllReservation($request);
         $times = $this->reservationService->getSelectOptionTime();
 
         return Inertia::render('Reservation/Index', [
             'reservations' => $reservations,
-            'times' =>  $times
+            'times' =>  $times,
+            'query' => $request->query()
         ]);
     }
 
@@ -127,7 +129,7 @@ class ReservationController extends Controller
             'item' => $items,
             'staffName' => $staffName,
             'times' =>  $times,
-            'status' => $status
+            'state' => $status
         ]);
     }
 

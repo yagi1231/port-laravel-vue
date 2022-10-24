@@ -14,26 +14,28 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-      $this->app->bind(CustomerService::class, CustomerRepository::class);
-      $this->app->bind(ReservationService::class, ReservationRepository::class);
-      $this->app->bind(ItemService::class, ItemRepository::class);
-      $this->app->bind(PurchaseService::class, PurchaseRepository::class);
+  /**
+   * Register any application services.
+   *
+   * @return void
+   */
+  public function register()
+  {
+    $this->app->bind(CustomerService::class, CustomerRepository::class);
+    $this->app->bind(ReservationService::class, ReservationRepository::class);
+    $this->app->bind(ItemService::class, ItemRepository::class);
+    $this->app->bind(PurchaseService::class, PurchaseRepository::class);
+  }
+
+  /**
+   * Bootstrap any application services.
+   *
+   * @return void
+   */
+  public function boot()
+  {
+    if (config('app.env') === 'production') {
+      URL::forceScheme('https');
     }
-    
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        //
-    }
+  }
 }

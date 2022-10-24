@@ -6,23 +6,20 @@ import { onMounted, reactive, ref } from 'vue';
 import { Inertia } from '@inertiajs/inertia';
 import FlashMessage from '@/Components/FlashMessage.vue';
 import DateList from '@/Components/DateList.vue';
-import { getToday } from '@/common';
 import dayjs from 'dayjs'
+
 
 const props = defineProps({
     reservations: Object,
-    times: Array
-})
-
-onMounted(() => {
-    // serach.dateTime = getToday()
-    // serach.deliveryTime = getToday()
+    times: Array,
+    query: Object
 })
 
 const serach = reactive({
     dateTime: null,
     freeWord: null,
-    deliveryTime: null
+    deliveryTime: null,
+    page: null,
 })
 
 const dateListTime = (e) => {
@@ -33,11 +30,9 @@ const serachReservation = () => {
     Inertia.get('reservations', serach)
 }
 
-const inputingForm = ref(false)
-
-// const openForm = () => {
-//     inputingForm.value = !inputingForm.value
-// }
+const getQuery = (url) => {
+    serach.page = url
+}
 </script>
 
 <template>
@@ -57,17 +52,17 @@ const inputingForm = ref(false)
             <div class="py-12">
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div class="p-6 bg-white border-gray-200">
-                        <div class="flex justify-center">
+                        <div class="flex flex-wrap -m-2 mx-auto md:justify-center">
                             <div class="p-2">
                                 <label for="name" class="leading-7 text-sm text-gray-600">日付検索</label><br>
                                 <input type="date" class="ml-3 bg-gray-100 bg-opacity-50 rounded border border-gray-300"
                                     name="tel" v-model="serach.dateTime">
                             </div>
 
-                            <DateList label="時間" class="p-2 w-1/6" :time="props.times" @dateList="dateListTime" />
+                            <DateList label="時間" class="p-2 md:w-1/5 sm:w-full" :time="props.times" @dateList="dateListTime" />
 
-                            <div class="p-2 w-1/3">
-                                <label for="name" class="leading-7 text-sm text-gray-600">フリーワード</label><br>
+                            <div class="p-2">
+                                <label for="name" class="leading-7 text-sm text-gray-600">顧客名・住所</label><br>
                                 <input type="text"
                                     class="ml-3 w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300"
                                     name="tel" v-model="serach.freeWord">
@@ -125,8 +120,9 @@ const inputingForm = ref(false)
                                                     {{ reservation.name }}
                                                     </Link>
                                                 </td>
-                                                <td class="px-4 py-3">{{ reservation.address }}</td>
-                                                <td class="px-4 py-3"> {{ dayjs(reservation.time).format('YY/MM/DD') }}</td>
+                                                <td class="px-4 py-3">{{ reservation.address }} {{ reservation.after_address }}</td>
+                                                <td class="px-4 py-3"> {{ dayjs(reservation.time).format('YY/MM/DD')
+                                                }}</td>
                                                 <td class="px-4 py-3">{{ reservation.datetime }}</td>
                                                 <td class="px-4 py-3">{{ reservation.delivery }}</td>
                                                 <td class="px-4 py-3">{{ reservation.status }}</td>
@@ -136,7 +132,8 @@ const inputingForm = ref(false)
                                 </div>
                             </div>
                         </section>
-                        <Pagination class="m-6 flex justify-center" :links="reservations.links"></Pagination>
+                        <Pagination class="m-6 flex justify-center" :links="reservations.links" :query="props.query"
+                            @query="getQuery" />
                     </div>
                 </div>
             </div>

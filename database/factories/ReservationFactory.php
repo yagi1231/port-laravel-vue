@@ -39,6 +39,7 @@ class ReservationFactory extends Factory
             'status' =>  $status[array_rand($status)],
             'remarks' => $this->faker->realText(50),
             'role_id' => rand(1,11),
+            'after_address' => $this->faker->streetAddress
         ];
     }
 }

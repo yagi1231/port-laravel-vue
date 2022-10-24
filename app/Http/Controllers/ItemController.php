@@ -7,6 +7,7 @@ use App\Http\Requests\Item\UpdateItemRequest;
 use App\Models\Item;
 use App\Servises\ItemService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -23,12 +24,14 @@ class ItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $items = $this->itemService->fetchPaginateItems();
+        $items = $this->itemService->fetchPaginateItems($request);
+        $status = Item::ITEM_STATUS_ALL;
 
         return Inertia::render('Item/Index', [
-            'items' =>  $items
+            'items' =>  $items,
+            'status' =>  $status
         ]);
     }
 
@@ -39,7 +42,10 @@ class ItemController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Item/Create');
+        $status = Item::ITEM_STATUS_ALL;
+        return Inertia::render('Item/Create', [
+            'state' =>  $status
+        ]);
     }
 
     /**
@@ -80,8 +86,11 @@ class ItemController extends Controller
      */
     public function edit(Item $item): Response
     {
+        $status = Item::ITEM_STATUS_ALL;
+
         return Inertia::render('Item/Edit', [
-            'item' => $item
+            'item' => $item,
+            'state' =>  $status
         ]);
     }
 

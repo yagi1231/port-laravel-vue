@@ -28,7 +28,9 @@ class StoreCustomerRequest extends FormRequest
             'name' => ['required', 'max:20'],
             'kana' => ['required', 'max:20'],
             'address' => ['required', 'max:255'],
-            'tel' => ['required', 'numeric', 'digits_between:8,11', 'unique:customers,tel'],
+            'affter_address' => ['required', 'max:255'],
+            'postcode' => ['required', 'digits:7'],
+            'tel' => ['required','numeric', 'digits_between:8,11', 'unique:customers,tel'],
             'postcode' => ['required', 'regex:/^[0-9]{3}-?[0-9]{4}$/'],
             'remrks' => ['max:255'],
         ];
@@ -41,6 +43,7 @@ class StoreCustomerRequest extends FormRequest
             $this->input('kana'),
             $this->input('postcode'),
             $this->input('address'),
+            $this->input('affter_address'),
             $this->input('tel'),
             $this->input('remarks'),
         );

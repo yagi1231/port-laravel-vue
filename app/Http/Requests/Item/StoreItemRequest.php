@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Item;
 
+use App\Models\Item;
 use App\Repository\Item\ItemParams;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -30,7 +31,7 @@ class StoreItemRequest extends FormRequest
             'price' => ['required', 'numeric', ],
             'allergy' => ['max:255'],
             'introduction' => ['max:255'],
-            'status' => [Rule::in(['販売中', '販売停止'])]
+            'status' => [Rule::in(Item::ITEM_STATUS_ALL)]
         ];
     }
 

@@ -2,23 +2,24 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import Pagination from '../../Components/Pagination.vue';
-import { onMounted, reactive, ref } from 'vue';
+import { reactive } from 'vue';
 import { Inertia } from '@inertiajs/inertia';
 import FlashMessage from '@/Components/FlashMessage.vue';
 import dayjs from 'dayjs'
-import { getToday } from '@/common';
 
 defineProps({
-    items: Object
+    items: Object,
+    status: Array
 })
 
-const inputingTel = ref('')
-
-const serachCustomer = () => {
-    Inertia.get('customers', {tel: inputingTel.value})
+const serachItem = () => {
+    Inertia.get('items', serach)
 }
 
-const inputingForm = ref(false)
+const serach = reactive({
+    inputingName: null,
+    status: '販売中'
+})
 </script>
 
 <template>
@@ -33,6 +34,39 @@ const inputingForm = ref(false)
         </template>
 
         <FlashMessage />
+
+        <form @submit.prevent="serachItem">
+            <div class="py-12">
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div class="p-6 bg-white border-gray-200">
+                        <div class="flex justify-center mb-5">
+                            <div class="">
+                                <label class="leading-7 text-sm text-gray-600">メニュー名</label><br>
+                                <input type="text"
+                                    class="w-4/5 ml-3 bg-gray-100 bg-opacity-50 rounded border border-gray-300"
+                                    name="name" v-model="serach.inputingName">
+                            </div>
+
+                            <div class="sm:w-full md:w-1/6">
+                                <label for="tel" class="leading-7 text-sm text-gray-600">ステータス</label><br>
+                                <select name="status" v-model="serach.status"
+                                    class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                    <option v-for="s in status">{{s}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flex justify-center mt-5">
+                            <button type=reset
+                                class="text-black bg-gray-500 border-0 py-2 px-6 focus:outline-none hover:bg-gray-600 rounded ml-3 mb-3">
+                                クリア</button>
+                            <button
+                                class="text-black bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded ml-3 mb-3">
+                                検索</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -64,15 +98,18 @@ const inputingForm = ref(false)
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="item in items.data" :key="item.id" class=" border-b-2 border-gray-200">
+                                            <tr v-for="item in items.data" :key="item.id"
+                                                class=" border-b-2 border-gray-200">
                                                 <td class="px-4 py-3">
-                                                    <Link  class="text-blue-400" :href="route('items.show', { item: item.id })">
-                                                        {{ item.name }}
+                                                    <Link class="text-blue-400"
+                                                        :href="route('items.show', { item: item.id })">
+                                                    {{ item.name }}
                                                     </Link>
                                                 </td>
                                                 <td class="px-4 py-3">{{ item.price}}</td>
                                                 <td class="px-4 py-3">{{ item.status }}</td>
-                                                <td class="px-4 py-3">{{ dayjs(item.updated_at).format('YYYY-MM-DD')  }}</td>
+                                                <td class="px-4 py-3">{{ dayjs(item.updated_at).format('YYYY-MM-DD') }}
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>

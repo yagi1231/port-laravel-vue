@@ -58,7 +58,7 @@ const form = reactive({
             <div class="py-12">
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div class="p-6 bg-white border-gray-200">
-                        <div class="flex justify-center">
+                        <div class="flex flex-wrap -m-2 mx-auto md:justify-center">
                             <div class="p-2">
                                 <label for="name" class="leading-7 text-sm text-gray-600">begin</label><br>
                                 <input type="date" name="startDate" v-model="form.startDate"

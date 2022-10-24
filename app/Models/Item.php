@@ -23,17 +23,12 @@ class Item extends Model
     /**
      * 商品ステータス
      */
-    public const ITEM_STATUS_A = 1;
-    public const ITEM_STATUS_B = 2;
+    public const ITEM_STATUS_A = '販売停止';
+    public const ITEM_STATUS_B = '販売中';
 
     public const ITEM_STATUS_ALL = [
         self::ITEM_STATUS_A,
         self::ITEM_STATUS_B,
-    ];
-
-    public const DELIVERY_STATUS_DISPLAY_ALL = [
-        self::ITEM_STATUS_A => '販売中',
-        self::ITEM_STATUS_A => '販売停止',
     ];
 
     public function user()

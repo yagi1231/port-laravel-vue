@@ -13,7 +13,7 @@ const props = defineProps({
     label: String,
     class: String,
     reactive: String,
-    time: Array
+    time: Array,
 })
 </script>
 

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('kana')->comment('カナ');
             $table->string('postcode')->comment('郵便番号');
             $table->string('address')->comment('住所');
+            $table->string('after_address')->comment('番地・建物名');
             $table->string('tel')->comment('お客様電話番号');
             $table->integer('sumprice')->comment('合計金額');
             $table->string('delivery')->nullable()->comment('配達員名');

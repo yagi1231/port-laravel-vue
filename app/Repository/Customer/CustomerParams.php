@@ -10,6 +10,7 @@ class CustomerParams
     private string $kana;
     private int $postcode;
     private string $address;
+    private string $affter_address;
     private string $tel;
     private ?string $remarks;
 
@@ -18,6 +19,7 @@ class CustomerParams
         string $kana,
         int $postcode,
         string $address,
+        string $affter_address,
         string $tel,
         ?string $remarks = null,
     ) {
@@ -25,6 +27,7 @@ class CustomerParams
         $this->kana = $kana;
         $this->postcode = $postcode;
         $this->address = $address;
+        $this->affter_address = $affter_address;
         $this->tel = $tel;
         $this->remarks = $remarks;
     }
@@ -36,6 +39,7 @@ class CustomerParams
             'kana' =>  $this->kana,
             'postcode' =>  $this->postcode,
             'address' =>  $this->address,
+            'affter_address' => $this->affter_address,
             'tel' =>  $this->tel,
             'remarks' =>  $this->remarks,
             'user_id' => Auth::user()->id,
