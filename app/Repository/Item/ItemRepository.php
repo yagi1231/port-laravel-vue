@@ -5,6 +5,7 @@ namespace App\Repository\Item;
 use App\Models\Item;
 use App\Servises\ItemService;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class ItemRepository implements ItemService
@@ -14,9 +15,16 @@ class ItemRepository implements ItemService
         return Item::where('status', '販売中')->get();
     }  
 
-    public function fetchPaginateItems(): LengthAwarePaginator
+    public function fetchPaginateItems(Request $query): LengthAwarePaginator
     {
-        return Item::paginate(10);
+        return Item::query()
+        ->where(function($q) use ($query) {
+            if($query['inputingName'] || $query['status']) {
+                $q->where('status', $query['status'])
+                        ->orwhere('name', $query['inputingName']);
+            }
+        })
+        ->paginate(10);
     }  
 
     public function storeItem(ItemParams $param): void

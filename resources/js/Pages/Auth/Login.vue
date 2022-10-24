@@ -29,6 +29,10 @@ const submit = () => {
     <GuestLayout>
         <Head title="Log in" />
 
+        <div class="fixed top-0 right-0 px-6 py-4 sm:block">
+            <Link  :href="route('register')" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</Link>
+        </div>
+
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
             {{ status }}
         </div>

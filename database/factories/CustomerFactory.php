@@ -27,7 +27,8 @@ class CustomerFactory extends Factory
             'postcode' => $this->faker->postcode,
             'address' => $address,
             'remarks' => $this->faker->realText(50),
-            'user_id' => rand(1, User::count())
+            'user_id' => rand(1, User::count()),
+            'affter_address' => $this->faker->streetAddress
         ];
     }
 }

@@ -7,6 +7,7 @@ namespace App\Servises;
 use App\Models\Item;
 use App\Repository\Item\ItemParams;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface ItemService
@@ -18,8 +19,9 @@ interface ItemService
 
     /**
      * 商品情報を10件ずつ表示する
+     * @param Request $query 検索情報
      */
-    public function fetchPaginateItems(): LengthAwarePaginator;
+    public function fetchPaginateItems(Request $query): LengthAwarePaginator;
 
     /**
      * 商品情報を登録する

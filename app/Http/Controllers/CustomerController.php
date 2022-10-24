@@ -57,7 +57,6 @@ class CustomerController extends Controller
      */
     public function store(StoreCustomerRequest $request): RedirectResponse
     {
-
         DB::transaction(function () use ($request) {
             $this->customerService->storeCustomer($request->getCustomerParams());
         });

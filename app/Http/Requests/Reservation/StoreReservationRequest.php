@@ -36,10 +36,10 @@ class StoreReservationRequest extends FormRequest
             'tel' => ['required', 'numeric', 'digits_between:8,11'],
             'remrks' => ['max:255'],
             'status' => [Rule::in(['準備中', '配達中', '再配達', '遅延'])],
-            'time' => ['date'],
             'delivery_time' => [Rule::in(Reservation::TIME_ALL)],
-            'day_time' => ['date'],
-            'items' => ['required']
+            'day_time' => ['date', 'regex:/^202[0-9]{1}-[0-9]{2}-[0-9]{2}$/'],
+            'items' => ['required'],
+            'after_address' => ['required', 'max:255']
         ];
     }
 
@@ -56,6 +56,7 @@ class StoreReservationRequest extends FormRequest
             $this->input('sumprice'),
             $this->input('day_time'),
             $this->input('delivery_time'),
+            $this->input('after_address'),
             (array)$this->input('item'),
             $this->input('status'),
         );

@@ -22,10 +22,6 @@ const serachCustomer = () => {
 }
 
 const inputingForm = ref(false)
-
-const openForm = () => {
-    inputingForm.value = !inputingForm.value
-}
 </script>
 
 <template>
@@ -44,30 +40,26 @@ const openForm = () => {
         <form @submit.prevent="serachCustomer">
             <div class="py-12">
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div class="p-6 bg-white border-b border-gray-200">
-                        <div class="flex justify-center">
-                            <div class="p-2 w-1/6">
-                                <label>名前</label><br>
-                                <input type="text"
-                                    class="ml-3 w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300"
+                    <div class="p-6 bg-white border-gray-200">
+                        <div class="flex m-2 mx-auto justify-center mb-5">
+                            <div class="">
+                                <label class="leading-7 text-sm text-gray-600">顧客名</label><br>
+                                <input type="text" class="w-4/5 ml-3 bg-gray-100 bg-opacity-50 rounded border border-gray-300"
                                     name="name" v-model="serach.inputingName">
                             </div>
 
-                            <div class="p-2 w-1/6">
-                                <label>電話番号</label><br>
-                                <input type="text"
-                                    class="ml-3 w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300"
+                            <div class="">
+                                <label class="leading-7 text-sm text-gray-600">電話番号</label><br>
+                                <input type="text" class="w-4/5 ml-3 bg-gray-100 bg-opacity-50 rounded border border-gray-300"
                                     name="tel" v-model="serach.inputingTel">
                             </div>
 
-                            <div class="p-2 w-1/3">
-                                <label>住所</label><br>
-                                <input type="text"
-                                    class="ml-3 w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300"
+                            <div class="md:w-1/3">
+                                <label class="leading-7 text-sm text-gray-600">住所</label><br>
+                                <input type="text" class="w-4/5 ml-3 bg-gray-100 bg-opacity-50 rounded border border-gray-300"
                                     name="address" v-model="serach.inputingAddress">
                             </div>
                         </div>
-
                         <div class="flex justify-center mt-5">
                             <button type=reset
                                 class="text-black bg-gray-500 border-0 py-2 px-6 focus:outline-none hover:bg-gray-600 rounded ml-3 mb-3">
@@ -116,7 +108,10 @@ const openForm = () => {
                                                     {{ customer.name }}
                                                     </Link>
                                                 </td>
-                                                <td class="px-4 py-3">{{ customer.address }}</td>
+                                                <td class="px-4 py-3">
+                                                    <span>{{ customer.address }}</span>
+                                                    <span>{{ customer.affter_address }}</span>
+                                                </td>
                                                 <td class="px-4 py-3">{{ customer.tel }}</td>
                                             </tr>
                                         </tbody>

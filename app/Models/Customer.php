@@ -17,6 +17,7 @@ class Customer extends Model
         'tel',
         'remarks',
         'postcode',
+        'affter_address',
         'user_id'
     ];
 

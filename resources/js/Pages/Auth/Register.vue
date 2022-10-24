@@ -12,6 +12,7 @@ const form = useForm({
     password: '',
     password_confirmation: '',
     terms: false,
+    csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
 });
 
 const submit = () => {
@@ -25,7 +26,12 @@ const submit = () => {
     <GuestLayout>
         <Head title="Register" />
 
+        <div class=" fixed top-0 right-0 px-6 py-4 sm:block">
+            <Link :href="route('login')" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</Link>
+        </div>
+
         <form @submit.prevent="submit">
+            <input type="hidden" name="_token" :value="form.csrf">
             <div>
                 <InputLabel for="name" value="Name" />
                 <TextInput id="name" type="text" class="mt-1 block w-full" v-model="form.name" required autofocus autocomplete="name" />

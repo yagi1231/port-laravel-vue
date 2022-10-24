@@ -25,7 +25,8 @@ class Reservation extends Model
         'datetime',
         'time',
         'status',
-        'remarks'
+        'remarks',
+        'after_address'
     ];
 
     public function user()
