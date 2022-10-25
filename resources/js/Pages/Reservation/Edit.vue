@@ -59,7 +59,7 @@ const { errors, meta, handleChange, handleSubmit, isSubmitting } = useForm({
     validationSchema: schema,
     initialValues: {
         name: props.reservation.name,
-        customer_id: props.reservation.id,
+        customer_id: props.reservation.customer_id,
         kana: props.reservation.kana,
         affter_address: props.reservation.address,
         tel: props.reservation.tel,
@@ -90,6 +90,7 @@ const { value: delivery_time } = useField('delivery_time');
 const { value: delivery_name } = useField('delivery_name');
 
 const updateReservation = handleSubmit((values, id) => {
+    console.log(values)
     if (confirm('この内容で登録でよろしいでしょうか？')) {
         itemList.value.forEach(item => {
             if (item.quantity > 0) {

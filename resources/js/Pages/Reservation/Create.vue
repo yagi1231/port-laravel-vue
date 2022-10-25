@@ -54,7 +54,7 @@ const { errors, meta, handleChange, handleSubmit, isSubmitting } = useForm({
         remarks: props.reservation.remarks ?? '',
         postcode: props.reservation.postcode,
         address: props.reservation.address,
-        after_address: props.reservation.after_address,
+        after_address: props.reservation.affter_address,
         status: '準備中',
         sumprice: '',
         day_time: getToday(),

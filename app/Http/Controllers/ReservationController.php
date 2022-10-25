@@ -45,7 +45,6 @@ class ReservationController extends Controller
      */
     public function index(Request $request): Response
     {
-        // dd($request->fullUrl()."1");
         $reservations = $this->reservationService->featchAllReservation($request);
         $times = $this->reservationService->getSelectOptionTime();
 

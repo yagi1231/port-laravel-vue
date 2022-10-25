@@ -21,7 +21,7 @@ interface CustomerService
      * 顧客情報を登録する
      * @param customerParams $params 顧客登録情報
      */
-    public function storeCustomer(CustomerParams $params): void;
+    public function storeCustomer(CustomerParams $params): Customer;
     
         /**
      * 予約情報を更新する

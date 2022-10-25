@@ -57,11 +57,11 @@ class CustomerController extends Controller
      */
     public function store(StoreCustomerRequest $request): RedirectResponse
     {
-        DB::transaction(function () use ($request) {
-            $this->customerService->storeCustomer($request->getCustomerParams());
+        $customer = DB::transaction(function () use ($request) {
+            return $this->customerService->storeCustomer($request->getCustomerParams());
         });
 
-        return to_route('customers.index')->with([
+        return to_route('customers.show', ['customer' => $customer->id])->with([
             'message' => $request->name . "様を登録しました",
             'status' => 'success'
         ]);
@@ -112,7 +112,7 @@ class CustomerController extends Controller
             $this->customerService->updateCustomer($request->getCustomerParams(), $customer);
         });
 
-        return to_route('customers.index')->with([
+        return to_route('customers.show', ['customer' => $customer->id])->with([
             'message' => $request->name . "様を更新しました",
             'status' => 'success'
         ]);

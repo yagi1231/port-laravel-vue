@@ -19,9 +19,11 @@ class ItemRepository implements ItemService
     {
         return Item::query()
         ->where(function($q) use ($query) {
-            if($query['inputingName'] || $query['status']) {
-                $q->where('status', $query['status'])
-                        ->orwhere('name', $query['inputingName']);
+            if($query['inputingName']) {
+                $q->where('name', $query['inputingName']);
+            }
+            if($query['status']) {
+                $q->where('status', $query['status']);
             }
         })
         ->paginate(10);
