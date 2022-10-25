@@ -29,7 +29,9 @@ class ReservationRepository implements ReservationService
                 if ($query['deliveryTime']) {
                     $q->where('datetime', $query['deliveryTime']);
                 }
-            })->paginate(10);
+            })
+            ->orderBy('time')
+            ->paginate(10);
 
         return $reservations;
     }
