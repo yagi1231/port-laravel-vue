@@ -14,6 +14,7 @@ defineProps({
 const serach = reactive({
     dateTime: null,
     name: null,
+    page: null,
 })
 
 const serachPurchase = () => {

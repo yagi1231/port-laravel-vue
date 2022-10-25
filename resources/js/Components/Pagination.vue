@@ -16,6 +16,15 @@ const url = ref('')
 
 onMounted(() => {
     url.value = location.href.substring(0, location.href.lastIndexOf("=")) + "="
+    console.log( url.value )// "="
+    if(url.value === "=") {
+        url.value = location.href + "?page="
+        console.log( url.value )
+    }
+    else if(url.value.match('&page')) {
+        url.value = location.href.substring(0, location.href.indexOf("&page")) + "&page="
+        console.log( url.value )
+    }
 })
 </script>
 <template>

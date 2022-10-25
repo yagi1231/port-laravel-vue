@@ -14,7 +14,8 @@ defineProps({
 const serach = reactive({
     inputingName: null,
     inputingTel: null,
-    inputingAddress: null
+    inputingAddress: null,
+    page: null,
 })
 
 const serachCustomer = () => {

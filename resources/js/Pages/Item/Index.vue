@@ -18,7 +18,8 @@ const serachItem = () => {
 
 const serach = reactive({
     inputingName: null,
-    status: '販売中'
+    status: '販売中',
+    page: null,
 })
 </script>
 
