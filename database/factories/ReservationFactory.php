@@ -34,7 +34,7 @@ class ReservationFactory extends Factory
             'postcode' => $this->faker->postcode,
             'sumprice' => rand(5000 , 10000) * 2,
             'delivery' =>  null,
-            'time' => $this->faker->dateTime->format('Y/m/d'),
+            'time' => $this->faker->dateTime->format('Y-m-d'),
             'datetime' =>$times[array_rand($times)],
             'status' =>  $status[array_rand($status)],
             'remarks' => $this->faker->realText(50),

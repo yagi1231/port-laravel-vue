@@ -11,21 +11,26 @@ class CustomerRepository implements CustomerService
 {
     public function fetchAllCustomer(Request $query): LengthAwarePaginator
     {
+
         $customers = Customer::query()
             ->where(function ($q) use ($query) {
-                if (($query['inputingName'] || $query['inputingTel'] || $query['inputingAddress'])) {
-                    $q->where('tel', $query['inputingTel'])
-                        ->orwhere('name', $query['inputingName'])
-                        ->orwhere('address',  $query['inputingAddress']);
+                if (($query['inputingName'])) {
+                    $q->where('name', "LIKE", "%".$query['inputingName']."%");
+                }
+                if($query['inputingTel'] ) {
+                    $q->where('tel', $query['inputingTel']);
+                }
+                if($query['inputingAddress']) {
+                    $q->where('address', "LIKE", "%".$query['inputingAddress']."%");
                 }
             })->paginate(10);
 
         return $customers;
     }
 
-    public function storeCustomer(CustomerParams $params): void
+    public function storeCustomer(CustomerParams $params): Customer
     {
-        Customer::create($params->toArray());
+        return Customer::create($params->toArray());
     }
 
     public function updateCustomer(CustomerParams $params, Customer $customer): void

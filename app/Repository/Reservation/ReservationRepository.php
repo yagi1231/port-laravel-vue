@@ -16,8 +16,9 @@ class ReservationRepository implements ReservationService
         $reservations = Reservation::query()
             ->where(function ($q) use ($query) {
                 if ($query['freeWord']) {
-                    $q->where('name', $query['freeWord'])
-                        ->orwhere('address', $query['freeWord']);
+                    $q->where('name', 'LIKE', '%' . $query['freeWord'] . '%')
+                        ->orwhere('address', "LIKE", $query['freeWord'].'%')
+                         ->orwhere('after_address', "LIKE", '%'.$query['freeWord']);
                 }
             })->where(function ($q) use ($query) {
                 if ($query['dateTime']) {

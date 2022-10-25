@@ -11,6 +11,7 @@ use App\Servises\ItemService;
 use App\Servises\PurchaseService;
 use App\Servises\ReservationService;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
