@@ -14,6 +14,7 @@ class AnalysisServise
         $data = DB::table($query)
             ->groupBy('time')
             ->selectRaw('time, sum(totalPerPurchase) as total, avg(totalPerPurchase) as average, count(time) as count')
+            ->orderBy('time')
             ->get();
 
         if ($request->category === '件数') {
@@ -37,6 +38,7 @@ class AnalysisServise
         $query = $subQuery->groupBy('id')->selectRaw('id, SUM(subtotal) as totalPerPurchase, DATE_FORMAT(time, "%Y/%m") as time')->groupBy('time');
         $data = DB::table($query)
             ->groupBy('time')
+            ->orderBy('time')
             ->selectRaw('time, sum(totalPerPurchase) as total, avg(totalPerPurchase) as average, count(time) as count')
             ->get();
 
@@ -61,6 +63,7 @@ class AnalysisServise
         $query = $subQuery->groupBy('id')->selectRaw('id, SUM(subtotal) as totalPerPurchase, DATE_FORMAT(time, "%Y") as time')->groupBy('time');
         $data = DB::table($query)
             ->groupBy('time')
+            ->orderBy('time')
             ->selectRaw('time, sum(totalPerPurchase) as total, avg(totalPerPurchase) as average, count(time) as count')
             ->get();
 
