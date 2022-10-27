@@ -20,6 +20,7 @@ class PurchaseRepository implements PurchaseService
                         ->orwhere('reservation_name', $query['name']);
                 }
             })
+            ->orderBy('time', 'desc')
             ->paginate(50);
 
         return $purchases;
