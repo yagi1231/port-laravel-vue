@@ -30,7 +30,7 @@ class ReservationRepository implements ReservationService
                     $q->where('datetime', $query['deliveryTime']);
                 }
             })
-            ->orderBy('time')
+            ->orderByRaw('time desc, datetime asc')
             ->paginate(10);
 
         return $reservations;
