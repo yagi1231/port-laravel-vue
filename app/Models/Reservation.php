@@ -137,13 +137,15 @@ class Reservation extends Model
 
     public const STATUS_TYPE_A = '準備中';
     public const STATUS_TYPE_B = '配達中';
-    public const STATUS_TYPE_C = '再配達';
-    public const STATUS_TYPE_D = '遅延';
+    public const STATUS_TYPE_C = '配達済';
+    public const STATUS_TYPE_D = '再配達';
+    public const STATUS_TYPE_E = '遅延';
 
     public const STATUS_ALL = [
         self::STATUS_TYPE_A,
         self::STATUS_TYPE_B,
         self::STATUS_TYPE_C,
         self::STATUS_TYPE_D,
+        self::STATUS_TYPE_E,
     ];
 }
