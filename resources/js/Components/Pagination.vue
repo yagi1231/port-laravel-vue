@@ -7,11 +7,6 @@ const props = defineProps({
 
 const emit = defineEmits(['query'])
 
-const getquery = (e) => {
-    const query = {page: e}
-    emit('query', query)
-}
-
 const url = ref('')
 
 onMounted(() => {

@@ -6,6 +6,7 @@ import { onMounted, reactive, ref } from 'vue';
 import ValidationErrors from '@/Components/ValidationErrors.vue';
 import { Core as YubinBangoCore } from "yubinbango-core2";
 import * as AutoKana from "vanilla-autokana";
+import FlashMessage from '@/Components/FlashMessage.vue';
 
 const props = defineProps({
     customer: Object,
@@ -41,6 +42,8 @@ onMounted(() => {
                 顧客詳細
             </h2>
         </template>
+
+        <FlashMessage />
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

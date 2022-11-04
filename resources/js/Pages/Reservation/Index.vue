@@ -120,7 +120,7 @@ const getQuery = (url) => {
                                                     {{ reservation.name }}
                                                     </Link>
                                                 </td>
-                                                <td class="px-4 py-3">{{ reservation.address }} {{ reservation.after_address }}</td>
+                                                <td class="py-3">{{ reservation.address }}<br>{{ reservation.after_address }}</td>
                                                 <td class="px-4 py-3"> {{ dayjs(reservation.time).format('YY/MM/DD')
                                                 }}</td>
                                                 <td class="px-4 py-3">{{ reservation.datetime }}</td>
@@ -132,7 +132,7 @@ const getQuery = (url) => {
                                 </div>
                             </div>
                         </section>
-                        <Pagination class="m-6 flex justify-center" :links="reservations.links" :query="props.query"
+                        <Pagination class="m-6 flex justify-center" :links="reservations.links" 
                             @query="getQuery" />
                     </div>
                 </div>

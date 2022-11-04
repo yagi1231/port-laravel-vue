@@ -82,7 +82,9 @@ class CustomerController extends Controller
             'customer' => $customer,
             'staff' =>  $customer->user,
             'lastOrderDay' => $lastOrderDay,
-            'orderCount' =>  $orderCount
+            'orderCount' =>  $orderCount,
+            'message' => $customer->name . "様を登録しました",
+            'status' => 'success'
         ]);
     }
 

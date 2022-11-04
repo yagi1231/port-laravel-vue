@@ -43,7 +43,8 @@ class PurchaseRepository implements PurchaseService
     {
         return Purchase::where('customer_id', $purchase_id)
             ->where('time', '<', Carbon::now())
-            ->select('time')->groupBy('id')
+            ->select('time')
+            ->groupBy('id')
             ->first();
     }
 
