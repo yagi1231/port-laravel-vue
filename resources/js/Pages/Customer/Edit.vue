@@ -62,7 +62,6 @@ const udpateCustomer = handleSubmit((values, id) => {
 <template>
 
     <Head title="顧客編集" />
-    <p>valid:{{ meta.valid }}</p>
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight bgblue-300">
