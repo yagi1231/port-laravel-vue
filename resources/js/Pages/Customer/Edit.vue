@@ -7,6 +7,7 @@ import ValidationErrors from '@/Components/ValidationErrors.vue';
 import { Core as YubinBangoCore } from "yubinbango-core2";
 import { useField, useForm } from "vee-validate";
 import { object, string, number } from 'yup';
+import FlashMessage from '@/Components/FlashMessage.vue';
 
 const props = defineProps({
     customer: Object
@@ -68,6 +69,8 @@ const udpateCustomer = handleSubmit((values, id) => {
                 顧客編集
             </h2>
         </template>
+
+        <FlashMessage />
 
         <section class="text-gray-600 body-font relative">
             <ValidationErrors class="mb-4" />

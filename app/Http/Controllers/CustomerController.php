@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Customer\StoreCustomerRequest;
-use App\Http\Requests\Customer\UpdatecustomerRequest;
+use App\Http\Requests\Customer\UpdateCustomerRequest;
 use App\Models\Customer;
 use App\Servises\CustomerService;
 use App\Servises\PurchaseService;
@@ -108,7 +108,7 @@ class CustomerController extends Controller
      * @param  \App\Models\customer  $customer
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(UpdatecustomerRequest $request, customer $customer): RedirectResponse
+    public function update(UpdateCustomerRequest $request, customer $customer): RedirectResponse
     {
         DB::transaction(function () use ($request, $customer) {
             $this->customerService->updateCustomer($request->getCustomerParams(), $customer);
